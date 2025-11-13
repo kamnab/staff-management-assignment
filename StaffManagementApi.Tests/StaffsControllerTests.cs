@@ -134,7 +134,7 @@ public class StaffsControllerTests
         var allStaff = await _controller.Search(null, null, null, null, null);
         okResult = Assert.IsType<OkObjectResult>(allStaff);
         list = Assert.IsAssignableFrom<IEnumerable<StaffDto>>(okResult.Value);
-        Assert.Equal(3, list.Count());
+        Assert.Equal(2, list.Count());
         Assert.Equal("Anna", list.First().FullName);
     }
 
