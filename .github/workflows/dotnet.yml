@@ -20,7 +20,7 @@ jobs:
     - name: Setup .NET 9 SDK
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '9.0.x'
+        dotnet-version: '9.0.11'
 
     - name: Restore dependencies
       run: dotnet restore ./StaffManagementApi.sln
