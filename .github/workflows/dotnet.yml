@@ -29,7 +29,7 @@ jobs:
       run: dotnet build ./StaffManagementApi.sln --no-restore --configuration Release
 
     - name: Run tests with coverage
-      run: dotnet test ./StaffManagementApi.Tests/StaffManagementApi.Tests.csproj --no-build --verbosity normal --collect:"XPlat Code Coverage"
+      run: dotnet test ./StaffManagementApi.Tests/StaffManagementApi.Tests.csproj --verbosity normal --collect:"XPlat Code Coverage"
 
     - name: Publish coverage results
       if: success()
