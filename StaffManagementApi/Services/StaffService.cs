@@ -34,17 +34,17 @@ public class StaffService
 
     public async Task<IEnumerable<Staff>> SearchAsync(string? staffId, int? gender, DateTime? from, DateTime? to)
     {
-        var q = _db.Staffs.AsQueryable();
+        var queryableStaffs = _db.Staffs.AsQueryable();
         if (!string.IsNullOrWhiteSpace(staffId))
-            q = q.Where(s => s.StaffId.Contains(staffId));
+            queryableStaffs = queryableStaffs.Where(s => s.StaffId.Contains(staffId));
         if (gender.HasValue)
-            q = q.Where(s => s.Gender == gender.Value);
+            queryableStaffs = queryableStaffs.Where(s => s.Gender == gender.Value);
         if (from.HasValue)
-            q = q.Where(s => s.Birthday >= from.Value.Date);
+            queryableStaffs = queryableStaffs.Where(s => s.Birthday >= from.Value.Date);
         if (to.HasValue)
-            q = q.Where(s => s.Birthday <= to.Value.Date);
+            queryableStaffs = queryableStaffs.Where(s => s.Birthday <= to.Value.Date);
 
 
-        return await q.OrderBy(s => s.StaffId).ToListAsync();
+        return await queryableStaffs.OrderBy(s => s.StaffId).ToListAsync();
     }
 }
