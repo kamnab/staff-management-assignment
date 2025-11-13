@@ -1,4 +1,4 @@
-# staff-management-assignment
+# Backend
 
 ### StaffManagementApi Project structure:
 - Data: Persist data storage such as DbContext
@@ -21,7 +21,7 @@ dotnet test
 .github/workflows/dotnet.yml
 ```
 
-# Follow the below snippet to run the project
+### Follow the below snippet to run the project
 ```
 git clone https://github.com/kamnab/staff-management-assignment
 cd staff-management-assignment
@@ -31,6 +31,19 @@ dotnet run --project ./StaffManagementApi/StaffManagementApi.csproj
 
 ```
 
+# Frontend Project Structure Folders
+- components: Render UI for each task like Create, Read, Update, Delete (each will have its own UI to make the logic, style, and etc)
+- router: manage page routes or navigation
+- services: logic layout of the app to communicate with web api and pass data to UI
+- views: display page to user and design to utilize many components per page view
 
+Requires Node.js version `20.19+` or `22.12+`.
 
+```
+node -v   # To list installed versions
 
+cd staff-management-frontend
+npm i
+npm run dev
+
+```
