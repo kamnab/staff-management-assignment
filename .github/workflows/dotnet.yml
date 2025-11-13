@@ -1,18 +1,20 @@
 name: .NET 9 CI
 
+# Trigger on push or pull requests to main
 on:
   push:
     branches:
       - main
-      - master
   pull_request:
     branches:
       - main
-      - master
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
     - name: Checkout repository
@@ -24,10 +26,20 @@ jobs:
         dotnet-version: '9.0.x'
 
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore ./StaffManagementApi.sln
 
     - name: Build solution
-      run: dotnet build --no-restore --configuration Release
+      run: dotnet build ./StaffManagementApi.sln --no-restore --configuration Release
 
-    - name: Run tests
-      run: dotnet test --no-build --verbosity normal
+    - name: Run tests with coverage
+      run: dotnet test ./StaffManagementApi.Tests/StaffManagementApi.Tests.csproj \
+        --no-build \
+        --verbosity normal \
+        --collect:"XPlat Code Coverage"
+
+    - name: Publish coverage results
+      if: success()
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage-report
+        path: ./StaffManagementApi.Tests/TestResults/
