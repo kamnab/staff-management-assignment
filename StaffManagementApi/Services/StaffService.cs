@@ -32,11 +32,13 @@ public class StaffService
         await _db.SaveChangesAsync();
     }
 
-    public async Task<IEnumerable<Staff>> SearchAsync(string? staffId, int? gender, DateTime? from, DateTime? to)
+    public async Task<IEnumerable<Staff>> SearchAsync(string? staffId, string? fullName, int? gender, DateTime? from, DateTime? to)
     {
         var queryableStaffs = _db.Staffs.AsQueryable();
         if (!string.IsNullOrWhiteSpace(staffId))
             queryableStaffs = queryableStaffs.Where(s => s.StaffId.Contains(staffId));
+        if (!string.IsNullOrWhiteSpace(fullName))
+            queryableStaffs = queryableStaffs.Where(s => s.FullName.Contains(fullName));
         if (gender.HasValue)
             queryableStaffs = queryableStaffs.Where(s => s.Gender == gender.Value);
         if (from.HasValue)

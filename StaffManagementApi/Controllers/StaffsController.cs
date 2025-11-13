@@ -72,9 +72,9 @@ public class StaffsController : ControllerBase
     }
 
     [HttpGet("search")]
-    public async Task<IActionResult> Search([FromQuery] string? staffId, [FromQuery] int? gender, [FromQuery] DateTime? from, [FromQuery] DateTime? to)
+    public async Task<IActionResult> Search([FromQuery] string? staffId, [FromQuery] string? fullName, [FromQuery] int? gender, [FromQuery] DateTime? from, [FromQuery] DateTime? to)
     {
-        var staffList = await _staffService.SearchAsync(staffId, gender, from, to);
+        var staffList = await _staffService.SearchAsync(staffId, fullName, gender, from, to);
         return Ok(staffList.Select(staff => new StaffDto
         {
             StaffId = staff.StaffId,
@@ -85,9 +85,9 @@ public class StaffsController : ControllerBase
     }
 
     [HttpGet("export/excel")]
-    public async Task<IActionResult> ExportExcel([FromQuery] string? staffId, [FromQuery] int? gender, [FromQuery] DateTime? from, [FromQuery] DateTime? to)
+    public async Task<IActionResult> ExportExcel([FromQuery] string? staffId, [FromQuery] string? fullName, [FromQuery] int? gender, [FromQuery] DateTime? from, [FromQuery] DateTime? to)
     {
-        var foundItems = await _staffService.SearchAsync(staffId, gender, from, to);
+        var foundItems = await _staffService.SearchAsync(staffId, fullName, gender, from, to);
         var bytes = _excelService.ExportToExcel(foundItems.Select(staff => new StaffDto
         {
             StaffId = staff.StaffId,

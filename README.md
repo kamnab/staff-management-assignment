@@ -11,8 +11,11 @@ Project structure:
 
 # Follow the snippet below to run the project
 ```
-dotnet build
-dotnet run
+git clone https://github.com/kamnab/staff-management-assignment
+cd StaffManagementApi
+dotnet StaffManagementApi restore
+dotnet StaffManagementApi build
+dotnet StaffManagementApi run
 ```
 
 

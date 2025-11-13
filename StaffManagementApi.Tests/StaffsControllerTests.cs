@@ -116,11 +116,25 @@ public class StaffsControllerTests
         await _staffService.AddAsync(new Staff { StaffId = "S1", FullName = "Anna", Birthday = DateTime.Now, Gender = 2 });
         await _staffService.AddAsync(new Staff { StaffId = "S2", FullName = "Ben", Birthday = DateTime.Now, Gender = 1 });
 
-        var result = await _controller.Search(null, 2, null, null);
-
-        var okResult = Assert.IsType<OkObjectResult>(result);
+        var getStaffId = await _controller.Search("S1", null, null, null, null);
+        var okResult = Assert.IsType<OkObjectResult>(getStaffId);
         var list = Assert.IsAssignableFrom<IEnumerable<StaffDto>>(okResult.Value);
-        Assert.Single(list);
+        Assert.Equal("S1", list.First().StaffId);
+
+        var getFullName = await _controller.Search(null, "Anna", null, null, null);
+        okResult = Assert.IsType<OkObjectResult>(getFullName);
+        list = Assert.IsAssignableFrom<IEnumerable<StaffDto>>(okResult.Value);
+        Assert.Equal("Anna", list.First().FullName);
+
+        var getGender = await _controller.Search(null, null, 2, null, null);
+        okResult = Assert.IsType<OkObjectResult>(getGender);
+        list = Assert.IsAssignableFrom<IEnumerable<StaffDto>>(okResult.Value);
+        Assert.Equal("Anna", list.First().FullName);
+
+        var allStaff = await _controller.Search(null, null, null, null, null);
+        okResult = Assert.IsType<OkObjectResult>(allStaff);
+        list = Assert.IsAssignableFrom<IEnumerable<StaffDto>>(okResult.Value);
+        Assert.Equal(3, list.Count());
         Assert.Equal("Anna", list.First().FullName);
     }
 
@@ -129,7 +143,7 @@ public class StaffsControllerTests
     {
         await _staffService.AddAsync(new Staff { StaffId = "S10", FullName = "Alice", Birthday = DateTime.Now, Gender = 2 });
 
-        var result = await _controller.ExportExcel(null, null, null, null);
+        var result = await _controller.ExportExcel(null, null, null, null, null);
 
         var fileResult = Assert.IsType<FileContentResult>(result);
         Assert.Equal("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileResult.ContentType);
